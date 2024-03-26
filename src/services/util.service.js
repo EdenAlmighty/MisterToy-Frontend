@@ -74,8 +74,8 @@ function debounce(func, timeout = 300) {
     }
 }
 
-function getRandomLabels(n = 3) {
+function getRandomLabels(num = 3) {
     const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle', 'Outdoor', 'Battery Powered']
     const shuffled = labels.sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, n)
+    return shuffled.slice(0, num)
 }

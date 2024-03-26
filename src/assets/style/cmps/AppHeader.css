@@ -1,0 +1,10 @@
+.app-header {
+    color: var(--clr2txt);
+    padding-block: 1em;
+}
+
+.app-nav {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}

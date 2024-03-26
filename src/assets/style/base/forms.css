@@ -1,0 +1,20 @@
+button {
+    cursor: pointer;
+    background-color: var(--clr1);
+    color: var(--clr1bg);
+    margin: 0.5em;
+    border: 0;
+    padding: 0.5em 0.8em;
+    border-radius: 4px;   
+    font-family: 'poppins';
+}
+
+button:hover {
+    background-color: var(--clr1-hover);
+    color: var(--clr1bg);
+    transition: .3s;
+}
+input:focus {
+    background-color: var(--clr1bg);
+    transition: background-color 1s;
+}

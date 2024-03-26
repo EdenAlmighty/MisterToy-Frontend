@@ -1,0 +1,15 @@
+:root {
+    --clr1: #f93d3c;
+    --clr2: #fb6d3b;
+    
+    --clr1-hover: #c92b2b;
+    --clr2-hover: #da5524;
+    
+    --clr1txt: #052125;
+    --clr2txt: #9e9e9e;
+    
+    --clr1bg: #ffffff;
+    --clr2bg: #026153;
+
+    --grey1: #f7f7f7;
+}
