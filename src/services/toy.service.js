@@ -29,7 +29,6 @@ function query(filterBy = { txt: '', price: 0, inStock: 'all', pageIdx: 0, label
             if (filterBy.labels && filterBy.labels.length) {
                 toys = toys.filter(toy =>
                     filterBy.labels.some(label => Array.isArray(toy.labels) && toy.labels.includes(label))
-                    // filterBy.labels.some(label => regex.test(label))
                 )
             }
             if (filterBy.inStock !== 'all') {

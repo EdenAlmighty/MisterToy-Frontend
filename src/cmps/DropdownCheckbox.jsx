@@ -28,7 +28,7 @@ export function DropdownCheckbox({ selectedOptions, handleCheckboxChange }) {
 
     return (
         <div>
-            <button onClick={() => setIsOpen(!isOpen)}>Select Labels</button>
+            <button onClick={() => setIsOpen(!isOpen)}>+ Select Labels</button>
             {isOpen && (
                 <div style={{ position: 'absolute', zIndex: 1, border: '1px solid #ccc', backgroundColor: '#fff', padding: '10px' }}>
                     {options.map(option => (

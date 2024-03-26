@@ -1,12 +1,13 @@
 import { loadToys, removeToy, saveToy, setFilterBy } from "../store/actions/toy.actions"
 
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toyService } from "../services/toy.service"
 import { ToyList } from "../cmps/ToyList"
 import { Link } from "react-router-dom"
 import { ToyFilter } from "../cmps/ToyFilter"
+import { ToySort } from "../cmps/ToySort"
 
 export function ToyIndex() {
 
@@ -14,6 +15,8 @@ export function ToyIndex() {
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+
+    const [sortBy, setSort] = useState('price')
 
     useEffect(() => {
         console.log(filterBy);
@@ -47,18 +50,33 @@ export function ToyIndex() {
             })
     }
 
+    function onSetSort(sort) {
+        setSort(sort)
+    }
+
+    function toysForDisplay() {
+        let sortedToys = [...toys]
+        if (sortBy === 'txt') {
+            sortedToys = sortedToys.sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+            sortedToys = sortedToys.sort((a, b) => a.price - b.price);
+        }
+        return sortedToys
+    }
+
     if (!toys) return <h1>Loading...</h1>
 
     console.log(toys);
     return (
         <div>
             <h1>Our Toys</h1>
-            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy}/>
+            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy} />
+            <ToySort onSetSort={onSetSort} />
             <main>
                 <Link to='/toy/edit' ><button className="add-btn">Add Toy</button></Link>
                 {!isLoading
                     ? <ToyList
-                        toys={toys}
+                        toys={toysForDisplay()}
                         onRemoveToy={onRemoveToy}
                         onEditToy={onEditToy}
                     />
