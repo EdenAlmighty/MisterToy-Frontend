@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service";
+import { DropdownCheckbox } from "./DropdownCheckbox";
+import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 
 export function ToyFilter({ onSetFilter, filterBy }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
-    // const [filterBy, setFilterBy] = useState({ txt: '', price: 0, inStock: 'all', pageIdx: 0 })
-    // const debouncedSetFilterRef = useRef(utilService.debounce(onSetFilter, 300))
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
 
-
-    useEffect(() => {
-        
+    useEffectUpdate(() => {
         onSetFilter.current(filterByToEdit)
     }, [filterByToEdit])
 
@@ -22,9 +20,16 @@ export function ToyFilter({ onSetFilter, filterBy }) {
         setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }))
     }
 
+    const handleCheckboxChange = (selectedLabels) => {
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            labels: selectedLabels
+        }))
+    }
+
     function onSubmit(ev) {
         ev.preventDefault()
-        onSetFilter(filterBy)
+        setFilterByToEdit(filterBy)
     }
 
     return (
@@ -58,6 +63,9 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                             id="unavailable"
                             onChange={handleChange} /> Out of Stock
                     </label>
+
+                    <DropdownCheckbox selectedOptions={filterByToEdit.labels} handleCheckboxChange={handleCheckboxChange} />
+                    
                 </div>
 
                 <div className="search-inputs">
@@ -77,17 +85,9 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                         onChange={handleChange}
                     />
                 </div>
+
             </form>
         </section>
     )
 }
 
-{/* <option value="">Label</option>
-                <option value="On wheels">On wheels</option>
-                <option value="Box game">Box game</option>
-                <option value="Art">Art</option>
-                <option value="Baby">Baby</option>
-                <option value="Doll">Doll</option>
-                <option value="Puzzle">Puzzle</option>
-                <option value="Outdoor">Outdoor</option>
-                <option value="Battery Powered">Battery Powered</option> */}

@@ -12,10 +12,11 @@ export function ToyIndex() {
 
     // const dispatch = useDispatch()
     const toys = useSelector(storeState => storeState.toyModule.toys)
-    const filterBy = useSelector((storeState) => storeState.toyModule.filterBy)
+    const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
 
     useEffect(() => {
+        console.log(filterBy);
         loadToys()
             .catch(err => {
                 showErrorMsg('Cannot load toys')
@@ -36,23 +37,7 @@ export function ToyIndex() {
             })
     }
 
-    function onAddToy() {
-        const toyToSave = toyService.getEmptyToy()
-        // toyToSave.name = prompt('Toy Name??')
-        // toyToSave.price = +prompt('Price??')
-
-        saveToy(toyToSave)
-            .then((savedToy) => {
-                console.log(savedToy);
-                showSuccessMsg(`Toy added [id: $${savedToy._id}]`)
-            })
-            .catch(err => {
-                showErrorMsg('Cannot add toy')
-            })
-    }
-
     function onEditToy(toy) {
-
         saveToy(toyToSave)
             .then((savedToy) => {
                 showSuccessMsg(`Toy updated price $${savedToy.price}`)
@@ -64,6 +49,7 @@ export function ToyIndex() {
 
     if (!toys) return <h1>Loading...</h1>
 
+    console.log(toys);
     return (
         <div>
             <h1>Our Toys</h1>

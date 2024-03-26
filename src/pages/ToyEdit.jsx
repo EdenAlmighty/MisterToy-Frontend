@@ -36,7 +36,7 @@ export function ToyEdit() {
         saveToy(toyToEdit)
             .then(() => {
                 showSuccessMsg('Toy Saved!')
-                navigate('/')
+                navigate('/toy')
             })
             .catch(err => {
                 console.log('Had issues in toy details', err);
@@ -57,7 +57,7 @@ export function ToyEdit() {
                 value={toyToEdit.name}
                 onChange={handleChange}
                 />
-                
+
                 <label htmlFor="price">Price: </label>
                 <input type="number" 
                 name="price"
@@ -69,7 +69,7 @@ export function ToyEdit() {
 
                 <div>
                     <button>{toyToEdit._id ? 'Save' : 'Add'}</button>
-                    <Link to='/'>Cancel</Link>
+                    <Link to='/toy'>Cancel</Link>
                 </div>
             </form>
         </section>
