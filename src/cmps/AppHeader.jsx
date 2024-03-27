@@ -10,37 +10,37 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 export function AppHeader() {
     const dispatch = useDispatch()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
-console.log(user);
+    console.log(user);
     function onLogout() {
         logout()
             .then(() => {
                 showSuccessMsg('logout successfully')
             })
             .catch((err) => {
-                showErrorMsg('OOPs try again')
+                showErrorMsg('OOPS try again')
             })
     }
-    return(
+    return (
         <header className="app-header full main-layout">
             <section className="header-container">
-            <nav className="app-nav">
-            <NavLink to="/"><h1 className="logo"><img src="/logo/MisterToys-logo.png" alt="" /></h1></NavLink>
+                <nav className="app-nav">
+                    <NavLink to="/"><img className="logo" src="/logo/MisterToys-logo.png" alt="" /></NavLink>
 
-            <NavLink to="/toy">Toys</NavLink>
-            </nav>
+                    <NavLink className="nav" to="/toy">Toys</NavLink>
+                    <NavLink className="nav" to="/stores">Our Stores</NavLink>
+                </nav>
             </section>
-            
-            {user ? (   
+
+            {user ? (
                 < section >
                     <span to={`/user/${user._id}`}>Hello {user.fullname}</span>
                     <button onClick={onLogout}>Logout</button>
                 </ section >
             ) : (
                 <section>
-                    <LoginSignup  />
+                    <LoginSignup />
                 </section>
             )}
-
             <UserMsg />
         </header>
     )

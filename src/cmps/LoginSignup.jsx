@@ -16,7 +16,7 @@ export function LoginSignup() {
     function _login(credentials) {
         login(credentials)
             .then(() => { showSuccessMsg('Logged in successfully') })
-            .catch((err) => { showErrorMsg('Oops try again') })
+            .catch((err) => { showErrorMsg('Wrong credentials') })
     }
 
     function _signup(credentials) {
@@ -26,12 +26,8 @@ export function LoginSignup() {
     }
 
     return (
-        <div className="login-page">
-            <LoginForm
-                onLogin={onLogin}
-                isSignup={isSignup}
-            />
-            <div className="btns">
+        <div className="login-container flex align-center">
+            <div className="btns pad1">
                 <a href="#" onClick={() => setIsSignUp(!isSignup)}>
                     {isSignup ?
                         'Already a member? Login' :
@@ -39,6 +35,10 @@ export function LoginSignup() {
                     }
                 </a >
             </div>
+            <LoginForm
+                onLogin={onLogin}
+                isSignup={isSignup}
+            />
         </div >
     )
 }

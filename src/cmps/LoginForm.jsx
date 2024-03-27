@@ -1,9 +1,12 @@
 import { useState } from "react"
 import { userService } from "../services/user.service.js"
 import Swal from 'sweetalert2'
+// import { useSwalEnterKey } from "../customHooks/useSwalEnterKey.jsx"
 
 export function LoginForm({ onLogin, isSignup }) {
     const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
+    // useSwalEnterKey()
+
 
     const showLoginOrSignupSwal = () => {
         const htmlContent = isSignup ? `
@@ -37,7 +40,7 @@ export function LoginForm({ onLogin, isSignup }) {
                 onLogin(result.value) 
             }
         })
-
+        
         setTimeout(() => {
             const inputs = Swal.getPopup().querySelectorAll('.swal2-input')
             inputs.forEach(input => {

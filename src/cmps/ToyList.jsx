@@ -10,10 +10,10 @@ export function ToyList({ toys, onRemoveToy, onEditToy }) {
                 <li className="toy-preview clean-list " key={toy._id}>
                     <ToyPreview toy={toy} />
 
-                    <div className="actions-btns pad1 ">
+                    <div className="actions-btns  ">
                         <button onClick={() => onRemoveToy(toy._id)}>x</button>
                         {/* <button onClick={() => onEditToy(toy)}>Edit</button> */}
-                        <Link to={`/toy/edit/${toy._id}`}><button>Edit</button></Link> &nbsp; | &nbsp;
+                        <Link to={`/toy/${toy._id}`}><button>Details</button></Link> &nbsp; | &nbsp;
                         {/* <Link to={`/toy/${toy._id}`}>Details</Link> */}
 
                     </div>
