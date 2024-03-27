@@ -13,15 +13,6 @@ export function ToySort({ sortBy, onSetSort }) {
         onSetSort(updatedSort)
     }
 
-    // return (
-    //     <div className="sort-container">
-    //         <label htmlFor="sort">Sort by:</label>
-    //         <select onChange={onChange} id="sort">
-    //             <option value="price">Price</option>
-    //             <option value="txt">Text</option>
-    //         </select>
-    //     </div>
-    // )
     return <section className="toy-sort">
     <h3>Sort toys:</h3>
     <button onClick={() => handleSortChange('name')}>By name</button>

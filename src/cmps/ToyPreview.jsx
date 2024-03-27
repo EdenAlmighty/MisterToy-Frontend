@@ -1,7 +1,5 @@
 import { utilService } from "../services/util.service"
 
-// import img from '../assets/img/3.jpg'
-
 export function ToyPreview({ toy }) {
 
 

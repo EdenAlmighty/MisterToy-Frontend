@@ -1,50 +1,96 @@
 import { useState } from "react"
 
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+const names = [
+    "On wheels",
+    "Box game",
+    "Art",
+    "Baby",
+    "Doll",
+    "Puzzle",
+    "Outdoor",
+    "Battery Powered"
+]
+
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
+
 export function DropdownCheckbox({ selectedOptions, handleCheckboxChange, toyLabels }) {
-    const [isOpen, setIsOpen] = useState(false)
+    const theme = useTheme();
+    const [personName, setPersonName] = React.useState(selectedOptions || [])
 
-    const options = [
-        "On wheels",
-        "Box game",
-        "Art",
-        "Baby",
-        "Doll",
-        "Puzzle",
-        "Outdoor",
-        "Battery Powered"
-    ]
+    React.useEffect(() => {
+        // Synchronize internal state with external prop changes
+        setPersonName(selectedOptions)
+    }, [selectedOptions])
 
-    const handleChange = ({ target }) => {
-        const { value, checked } = target
-        let newSelectedOptions
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event
 
-        if (checked) {
-            newSelectedOptions = [...selectedOptions, value]
-        } else {
-            newSelectedOptions = selectedOptions.filter(option => option !== value)
-        }
+        const newSelectedOptions = typeof value === 'string' ? value.split(',') : value
+        setPersonName(newSelectedOptions)
         handleCheckboxChange(newSelectedOptions)
     }
 
     return (
         <div>
-            <button onClick={() => setIsOpen(!isOpen)}>+ Select Labels</button>
-            {isOpen && (
-                <div style={{ position: 'absolute', zIndex: 1, border: '1px solid #ccc', backgroundColor: '#fff', padding: '10px' }}>
-                    {toyLabels.map(label => (
-                        <div key={label}>
-                            <input
-                                type="checkbox"
-                                id={label}
-                                value={label}
-                                onChange={handleChange}
-                                checked={selectedOptions.includes(label)}
-                            />
-                            <label htmlFor={label}>{label}</label>
-                        </div>
+            <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+                <Select
+                    labelId="demo-multiple-chip-label"
+                    id="demo-multiple-chip"
+                    multiple
+                    value={personName}
+                    onChange={handleChange}
+                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                    renderValue={(selected) => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {selected.map((value) => (
+                                <Chip key={value} label={value} />
+                            ))}
+                        </Box>
+                    )}
+                    MenuProps={MenuProps}
+                >
+                    {toyLabels.map((label) => (
+                        <MenuItem
+                            key={label}
+                            value={label}
+                            style={getStyles(label, personName, theme)}
+                        >
+                            {label}
+                        </MenuItem>
                     ))}
-                </div>
-            )}
+                </Select>
+            </FormControl>
         </div>
     )
 }

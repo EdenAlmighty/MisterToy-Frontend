@@ -7,22 +7,17 @@ import { ToyList } from "../cmps/ToyList"
 import { NavLink } from 'react-router-dom'
 import { ToyFilter } from "../cmps/ToyFilter"
 import { ToySort } from "../cmps/ToySort"
+import Swal from "sweetalert2"
 
 export function ToyIndex() {
-
-    // const dispatch = useDispatch()
-    // const toys = useSelector(storeState => storeState.toyModule.toys)
     const toys = useSelector((state) => state.toyModule.toys)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     const sortBy = useSelector(state => state.toyModule.sortBy)
 
-    // const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     console.log(toys);
-    // const [sortBy, setSort] = useState('price')
 
     useEffect(() => {
-        // console.log(filterBy);
         console.log(toys);
 
         loadToys(filterBy, sortBy)
@@ -40,16 +35,35 @@ export function ToyIndex() {
     }
 
     function onRemoveToy(toyId) {
-        removeToy(toyId)
-            .then(() => {
-                showSuccessMsg('Toy removed')
-            })
-            .catch(err => {
-                showErrorMsg('Cannot remove toy')
-            })
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                })
+                removeToy(toyId)
+                    .then(() => {
+                        showSuccessMsg('Toy removed')
+                    })
+                    .catch(err => {
+                        showErrorMsg('Cannot remove toy')
+                    })
+            }
+        })
+
     }
 
     function onEditToy(toy) {
+
         saveToy(toyToSave)
             .then((savedToy) => {
                 showSuccessMsg(`Toy updated price $${savedToy.price}`)
@@ -58,22 +72,6 @@ export function ToyIndex() {
                 showErrorMsg('Cannot update car')
             })
     }
-
-
-
-    // function toysForDisplay() {
-    //     let sortedToys = [...toys]
-    //     if (sortBy === 'txt') {
-    //         sortedToys = sortedToys.sort((a, b) => a.name.localeCompare(b.name));
-    //     } else {
-    //         sortedToys = sortedToys.sort((a, b) => a.price - b.price);
-    //     }
-    //     return sortedToys
-    // }
-
-    if (!toys || !toys.length) return <h1>Loading...</h1>
-    console.log(toys);
-    if (isLoading) return <h1>Loading...</h1>
 
     return (
         <div>
@@ -85,20 +83,14 @@ export function ToyIndex() {
 
             <main>
                 <NavLink to='/toy/edit' ><button className="add-btn">Add Toy</button></NavLink>
-                <ToyList
-                    toys={toys}
-                    onRemoveToy={onRemoveToy}
-                    onEditToy={onEditToy}
-                />
-
-                {/* {!isLoading
-                    ? <ToyList
-                        toys={toysForDisplay()}
+                {toys ? (
+                    <ToyList
+                        toys={toys}
                         onRemoveToy={onRemoveToy}
                         onEditToy={onEditToy}
                     />
-                    : <div>Loading...</div>
-                } */}
+
+                ) : <h1>Loading...</h1>}
                 <hr />
             </main>
         </div>

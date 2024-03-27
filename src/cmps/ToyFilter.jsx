@@ -33,6 +33,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
         setFilterByToEdit(filterBy)
     }
 
+
     return (
         <section className="toy-filter flex justify-center align-center">
             <form onSubmit={onSubmit}>

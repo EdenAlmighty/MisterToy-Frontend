@@ -4,11 +4,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toyService } from "../services/toy.service";
 import { saveToy } from "../store/actions/toy.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
+import Swal from "sweetalert2";
 
 export function ToyEdit() {
 
     //TODO: Add images to edit screen (windows background style)
-    
+
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
 
     const navigate = useNavigate()
@@ -35,16 +36,32 @@ export function ToyEdit() {
 
     function onSaveToy(ev) {
         ev.preventDefault()
+
         if (!toyToEdit.price) toyToEdit.price = 100
-        saveToy(toyToEdit)
-            .then(() => {
-                showSuccessMsg('Toy Saved!')
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.log('Had issues in toy details', err);
-                showErrorMsg('Had issues in toy details')
-            })
+        Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `Don't save`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire("Saved!", "", "success");
+                saveToy(toyToEdit)
+                    .then(() => {
+                        showSuccessMsg('Toy Saved!')
+                        navigate('/toy')
+                    })
+                    .catch(err => {
+                        console.log('Had issues in toy details', err);
+                        showErrorMsg('Had issues in toy details')
+                    })
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
+
     }
 
     return (

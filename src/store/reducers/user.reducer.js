@@ -5,7 +5,7 @@ const initialState = {
     loggedInUser: userService.getLoggedinUser()
 }
 
-export function userReducer(state = initialState, action) {
+export function userReducer(state = initialState, action = {}) {
     switch (action.type) {
         case SET_USER:
             return {

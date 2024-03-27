@@ -10,7 +10,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 export function AppHeader() {
     const dispatch = useDispatch()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
-
+console.log(user);
     function onLogout() {
         logout()
             .then(() => {
@@ -24,13 +24,13 @@ export function AppHeader() {
         <header className="app-header full main-layout">
             <section className="header-container">
             <nav className="app-nav">
-            <h1 className="logo"><img src="/logo/MisterToys-logo.png" alt="" /></h1>
+            <NavLink to="/"><h1 className="logo"><img src="/logo/MisterToys-logo.png" alt="" /></h1></NavLink>
 
-            <NavLink to="/toy">Home</NavLink>
+            <NavLink to="/toy">Toys</NavLink>
             </nav>
             </section>
             
-            {/* {user ? (   
+            {user ? (   
                 < section >
                     <span to={`/user/${user._id}`}>Hello {user.fullname}</span>
                     <button onClick={onLogout}>Logout</button>
@@ -41,7 +41,7 @@ export function AppHeader() {
                 </section>
             )}
 
-            <UserMsg /> */}
+            <UserMsg />
         </header>
     )
 }
