@@ -1,14 +1,16 @@
 
 import { toyService } from "../../services/toy.service.js";
-import { ADD_TOY, REMOVE_TOY, SET_FILTER_BY, SET_IS_LOADING, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
-
 import { store } from "../store.js";
 
-export function loadToys() {
-    const filterBy = store.getState().toyModule.filterBy
-    store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+import { ADD_TOY, REMOVE_TOY, SET_FILTER_BY, SET_IS_LOADING, SET_SORT_BY, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
 
-    return toyService.query(filterBy)
+
+export function loadToys(filterBy, sort) {
+    console.log('yes');
+    // const filterBy = store.getState().toyModule.filterBy
+    // store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+
+    return toyService.query(filterBy, sort)
         .then(toys => {
             store.dispatch({ type: SET_TOYS, toys })
         })
@@ -33,7 +35,7 @@ export function removeToy(toyId) {
 }
 
 export function saveToy(toy) {
-    const type = toy._id ? UPDATE_TOY : ADD_TOY
+    const type = (toy._id) ? UPDATE_TOY : ADD_TOY
     return toyService.save(toy)
         .then(savedToy => {
             console.log('savedToy', savedToy);
@@ -48,4 +50,8 @@ export function saveToy(toy) {
 
 export function setFilterBy(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
+
+export function setSortBy(sortBy) {
+    store.dispatch({ type: SET_SORT_BY, sortBy })
 }

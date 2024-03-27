@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function DropdownCheckbox({ selectedOptions, handleCheckboxChange }) {
+export function DropdownCheckbox({ selectedOptions, handleCheckboxChange, toyLabels }) {
     const [isOpen, setIsOpen] = useState(false)
 
     const options = [
@@ -31,16 +31,16 @@ export function DropdownCheckbox({ selectedOptions, handleCheckboxChange }) {
             <button onClick={() => setIsOpen(!isOpen)}>+ Select Labels</button>
             {isOpen && (
                 <div style={{ position: 'absolute', zIndex: 1, border: '1px solid #ccc', backgroundColor: '#fff', padding: '10px' }}>
-                    {options.map(option => (
-                        <div key={option}>
+                    {toyLabels.map(label => (
+                        <div key={label}>
                             <input
                                 type="checkbox"
-                                id={option}
-                                value={option}
+                                id={label}
+                                value={label}
                                 onChange={handleChange}
-                                checked={selectedOptions.includes(option)}
+                                checked={selectedOptions.includes(label)}
                             />
-                            <label htmlFor={option}>{option}</label>
+                            <label htmlFor={label}>{label}</label>
                         </div>
                     ))}
                 </div>

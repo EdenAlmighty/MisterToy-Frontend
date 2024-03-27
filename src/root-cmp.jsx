@@ -8,33 +8,27 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { ToyDetails } from './pages/ToyDetails.jsx'
 import { HomePage } from './pages/HomePage.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 export function App() {
 
   return (
-    <Provider store={store}>
-      <Router>
-        <section className="app">
-          <AppHeader />
-          <main className='main-layout'>
-            <Routes>
-              <Route element={<HomePage />} path="/" />
-              <Route element={<ToyIndex />} path="/toy" />
-              <Route element={<ToyEdit />} path="/toy/edit/" />
-              <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
-              <Route element={<ToyDetails />} path="/toy/:toyId" />
-              {/* <Route element={<AboutUs />} path="/about" /> */}
-              {/* <Route element={<CarIndex />} path="/car" /> */}
-              {/* <Route element={<CarEdit />} path="/car/edit" /> */}
-              {/* <Route element={<CarEdit />} path="/car/edit/:carId" /> */}
-              {/* <Route element={<CarDetails />} path="/car/:carId" /> */}
-              {/* <Route element={<UserDetails />} path="/user/:userId" /> */}
-            </Routes>
-          </main>
-          {/* <AppFooter /> */}
-        </section>
-      </Router>
-    </Provider>
+    <section className="app">
+      <AppHeader />
+      <main className='main-layout'>
+        <Routes>
+          <Route element={<HomePage />} path="/" />
+          <Route element={<ToyIndex />} path="/toy" />
+          <Route element={<ToyEdit />} path="/toy/edit/" />
+          <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
+          <Route element={<ToyDetails />} path="/toy/:toyId" />
+          {/* <Route element={<AboutUs />} path="/about" /> */}
+          {/* <Route element={<UserDetails />} path="/user/:userId" /> */}
+        </Routes>
+      </main>
+      {/* <AppFooter /> */}
+      <UserMsg />
+    </section>
   )
 }
 

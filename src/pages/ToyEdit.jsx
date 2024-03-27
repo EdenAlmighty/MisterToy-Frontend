@@ -7,8 +7,11 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 
 export function ToyEdit() {
 
-    const navigate = useNavigate()
+    //TODO: Add images to edit screen (windows background style)
+    
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+
+    const navigate = useNavigate()
     const { toyId } = useParams()
 
     useEffect(() => {
@@ -51,20 +54,20 @@ export function ToyEdit() {
             <form onSubmit={onSaveToy}>
                 <label htmlFor="name">Name: </label>
                 <input type="text"
-                name="name"
-                id="name"
-                placeholder="Avocado Plushy"
-                value={toyToEdit.name}
-                onChange={handleChange}
+                    name="name"
+                    id="name"
+                    placeholder="Avocado Plushy"
+                    value={toyToEdit.name}
+                    onChange={handleChange}
                 />
 
                 <label htmlFor="price">Price: </label>
-                <input type="number" 
-                name="price"
-                id="price"
-                placeholder="$150"
-                value={toyToEdit.price}
-                onChange={handleChange}
+                <input type="number"
+                    name="price"
+                    id="price"
+                    placeholder="$150"
+                    value={toyToEdit.price}
+                    onChange={handleChange}
                 />
 
                 <div>

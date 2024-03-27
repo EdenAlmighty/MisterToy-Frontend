@@ -1,5 +1,5 @@
 
-import { CLEAR_LIST, SET_USER, SET_USER_TOYS } from "../reducers/user.reducer.js"
+import { SET_USER } from "../reducers/user.reducer.js"
 import { userService } from "../../services/user.service.js"
 import { store } from "../store.js"
 
@@ -42,14 +42,14 @@ export function logout(credentials) {
         })
 }
 
-export function checkout(diff) {
-    return userService.updateScore(-diff)
-        .then((newToy) => {
-            store.dispatch({ type: CLEAR_LIST })
-            store.dispatch({ type: SET_USER_TOYS, todo: newToy })
-        })
-        .catch((err) => {
-            console.log('user actions -> Cannot checkout', err)
-            throw err
-        })
-}
+// export function checkout(diff) {
+//     return userService.updateScore(-diff)
+//         .then((newToy) => {
+//             store.dispatch({ type: CLEAR_LIST })
+//             store.dispatch({ type: SET_USER_TOYS, todo: newToy })
+//         })
+//         .catch((err) => {
+//             console.log('user actions -> Cannot checkout', err)
+//             throw err
+//         })
+// }

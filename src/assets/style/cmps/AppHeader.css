@@ -5,6 +5,11 @@
 
 .app-nav {
     display: flex;
+    font-size: 1.2em;
     gap: 1em;
     align-items: center;
+}
+
+.logo img{
+    height: 80px;
 }

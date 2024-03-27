@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service";
 import { DropdownCheckbox } from "./DropdownCheckbox";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
+import { toyService } from "../services/toy.service";
+
+const toyLabels = toyService.getToyLabels()
 
 export function ToyFilter({ onSetFilter, filterBy }) {
 
@@ -39,7 +42,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                         <input defaultChecked
                             type="radio"
                             name="inStock"
-                            value="all"
+                            value=""
                             id="all"
                             onChange={handleChange} /> All
                     </label>
@@ -48,7 +51,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                         <input
                             type="radio"
                             name="inStock"
-                            value="available"
+                            value={true}
                             id="available"
                             onChange={handleChange} /> In Stock
                     </label>
@@ -57,13 +60,17 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                         <input
                             type="radio"
                             name="inStock"
-                            value="unavailable"
+                            value={false}
                             id="unavailable"
                             onChange={handleChange} /> Out of Stock
                     </label>
 
-                    <DropdownCheckbox selectedOptions={filterByToEdit.labels} handleCheckboxChange={handleCheckboxChange} />
-                    
+                    <DropdownCheckbox
+                        selectedOptions={filterByToEdit.labels}
+                        handleCheckboxChange={handleCheckboxChange}
+                        toyLabels={toyLabels}
+                    />
+
                 </div>
 
                 <div className="search-inputs">
