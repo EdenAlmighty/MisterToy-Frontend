@@ -56,7 +56,7 @@ export function ToyEdit() {
     return (
         <div>
             <h1>{toyToEdit ? 'Edit' : 'Add'} Toy</h1>
-            <button onClick={() => handleSaveToySwal(toyToEdit)}>{toyToEdit ? 'Edit' : 'Add'} Toy with Swal</button>
+            <button className='btn' onClick={() => handleSaveToySwal(toyToEdit)}>{toyToEdit ? 'Edit' : 'Add'} Toy with Swal</button>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { userService } from "../services/user.service.js"
+import { userService } from "../../services/user.service.js"
 import Swal from 'sweetalert2'
 // import { useSwalEnterKey } from "../customHooks/useSwalEnterKey.jsx"
 
@@ -55,7 +55,7 @@ export function LoginForm({ onLogin, isSignup }) {
 
     return (
         <>
-            <button onClick={showLoginOrSignupSwal} type="button">
+            <button className='btn' onClick={showLoginOrSignupSwal} type="button">
                 {isSignup ? 'Signup' : 'Login'}
             </button>
         </>

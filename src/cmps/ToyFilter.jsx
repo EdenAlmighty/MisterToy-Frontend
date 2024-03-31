@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service"
-import { DropdownCheckbox } from "./DropdownCheckbox"
+import { DropdownCheckbox } from "./inputCmps/DropdownCheckbox"
 import { useEffectUpdate } from "../customHooks/useEffectUpdate"
 import { toyService } from "../services/toy.service"
+import { InStockInput } from "./inputCmps/InStockInput"
+import { TextInput } from "./inputCmps/TextInput"
+import { PageInput } from "./inputCmps/PageInput"
 
 const toyLabels = toyService.getToyLabels()
 
@@ -36,67 +39,25 @@ export function ToyFilter({ onSetFilter, filterBy }) {
 
     return (
         <>
-                            <img src="img/banner.jpg"></img>
-        <section className="toy-filter flex justify-center align-center">
+            <img src="img/banner.jpg"></img>
+            <section className="toy-filter flex justify-center align-center">
 
-            <form onSubmit={onSubmit}>
-                <div className="radio-sort flex justify-center align-center">
+                <form onSubmit={onSubmit}>
+                    <div className="radio-sort flex justify-center align-center">
+                        <TextInput handleChange={handleChange} filterByToEdit={filterByToEdit} />
 
-                    <label htmlFor="all">
-                        <input defaultChecked
-                            type="radio"
-                            name="inStock"
-                            value=""
-                            id="all"
-                            onChange={handleChange} /> All
-                    </label>
+                        <InStockInput handleChange={handleChange} />
 
-                    <label htmlFor="available">
-                        <input
-                            type="radio"
-                            name="inStock"
-                            value={true}
-                            id="available"
-                            onChange={handleChange} /> In Stock
-                    </label>
+                        <DropdownCheckbox
+                            selectedOptions={filterByToEdit.labels}
+                            handleCheckboxChange={handleCheckboxChange}
+                            toyLabels={toyLabels}
+                        />
+                        {/* <PageInput handleChange={handleChange} filterByToEdit={filterByToEdit} /> */}
+                    </div>
 
-                    <label htmlFor="unavailable">
-                        <input
-                            type="radio"
-                            name="inStock"
-                            value={false}
-                            id="unavailable"
-                            onChange={handleChange} /> Out of Stock
-                    </label>
-
-                    <DropdownCheckbox
-                        selectedOptions={filterByToEdit.labels}
-                        handleCheckboxChange={handleCheckboxChange}
-                        toyLabels={toyLabels}
-                    />
-
-                </div>
-
-                <div className="search-inputs">
-                    <input
-                        className="filter-input"
-                        placeholder="Search toys..."
-                        name="txt"
-                        value={filterByToEdit.txt}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="pageIdx">Page:</label>
-                    <input type="number"
-                        id="pageIdx"
-                        name="pageIdx"
-                        placeholder="0"
-                        value={filterByToEdit.pageIdx}
-                        onChange={handleChange}
-                    />
-                </div>
-
-            </form>
-        </section>
+                </form>
+            </section>
         </>
     )
 }

@@ -1,0 +1,9 @@
+.toy-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &.toy-card h4 {
+        margin-bottom: auto;
+    }
+}

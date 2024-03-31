@@ -36,7 +36,7 @@ export function ToyMsgs({ toyToEdit, msg, setMsg }) {
 
         />
 
-        <button onClick={onSaveMsg}>Save message</button>
+        <button className="btn" onClick={onSaveMsg}>Save message</button>
         {/* <input type="text" placeholder="Type your message here..." value={msg} onChange={handleChange} /> */}
     </div>
 }   

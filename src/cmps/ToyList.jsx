@@ -4,7 +4,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
 
 export function ToyList({ toys, onRemoveToy, onEditToy, onReorderToys }) {
-    console.log(toys)
+    // console.log(toys)
 
     const onDragEnd = (result) => {
         const { destination, source } = result
@@ -28,12 +28,12 @@ export function ToyList({ toys, onRemoveToy, onEditToy, onReorderToys }) {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        className={`${snapshot.isDragging && 'toy-preview clean-list'}`}
+                                        className={`${snapshot.isDragging} toy-preview clean-list`}
                                     >
                                         <ToyPreview toy={toy} />
                                         <div className="actions-btns">
-                                            <button onClick={() => onRemoveToy(toy._id)}>x</button>
-                                            <Link to={`/toy/${toy._id}`}><button>Details</button></Link>
+                                            <button className="btn" onClick={() => onRemoveToy(toy._id)}>x</button>
+                                            <Link to={`/toy/${toy._id}`}><button className="btn ">Details</button></Link>
                                         </div>
                                     </div>
                                 )}

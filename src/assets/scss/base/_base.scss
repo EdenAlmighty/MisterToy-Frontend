@@ -8,16 +8,21 @@ html {
 
 body {
     margin: 0;
-    color: var(--clr1txt);
-}
+    color: $clr1-txt;
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: .5em 0 .5em;
+    & h1,
+    h2,
+    h3,
+    h5,
+    h6 {
+        font-size: em(30px);
+        margin: .5em 0 .5em;
+        line-height: lh(40px, 29px);
+    }
+
+    & h4 {
+        font-size: em(20px);
+    }
 }
 
 p {
@@ -49,17 +54,33 @@ object {
 
 }
 
-/* Simple and useful CSS Debugging Technique */
 .debug * {
     outline: 1px solid gold
 }
 
-
-
 .dropdown-checkboxes div {
     padding: 5px 10px;
+
+    & label {
+        margin-left: 5px;
+    }
 }
 
-.dropdown-checkboxes label {
-    margin-left: 5px;
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app>* {
+    width: 100%;
+
+    @media (max-width: 580px) {
+        width: auto;
+    }
+}
+
+main {
+    flex-grow: 1;
 }

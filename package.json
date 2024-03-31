@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sass-dev": "sass --watch --update --style=expanded scss:css",
+    "sass-prod": "sass --no-source-map --style=compressed scss:css"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "axios": "^1.6.8",
     "google-map-react": "^2.2.1",
@@ -23,6 +26,7 @@
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.3",
     "redux": "^5.0.1",
+    "sass": "^1.72.0",
     "sweetalert2": "^11.10.7"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ import { loadToys, saveToy } from "../store/actions/toy.actions"
 import { useDispatch } from "react-redux"
 import Swal from "sweetalert2"
 import { ToyMsgs } from "../cmps/ToyMsg"
+import { ToyReview } from "../cmps/ToyReview"
 
 export function ToyDetails() {
     const { toyId } = useParams()
@@ -13,6 +14,8 @@ export function ToyDetails() {
     const dispatch = useDispatch()
     const [toyToEdit, setToyToEdit] = useState(null)
     const [msg, setMsg] = useState(toyService.getEmptyMsg().msgs[0].txt)
+    // const [review, setReview] = useState(toyService.getEmptyReview().reviews[0].rating)
+    const [review, setReview] = useState(toyService.getEmptyReview().reviews[0].rating)
 
 
     useEffect(() => {
@@ -79,15 +82,16 @@ export function ToyDetails() {
 
     return toyToEdit ? (
         <section className="toy-details">
-            <Link to="/toy"><button>Back</button></Link>
+            <Link to="/toy"><button className='btn'>Back</button></Link>
             <article className="toy-details">
                 <img src={`/img/${utilService.getRandomIntInclusive(1, 10)}.jpg`} alt="toy-img" />
                 <div className="toy-details-info  ">
                     <h1>Toy Name: {toyToEdit.name}</h1>
                     <h5>Toy Price: ${toyToEdit.price}</h5>
                 </div>
-                <button onClick={handleSaveToySwal}>Edit Toy</button>
+                <button className='btn' onClick={handleSaveToySwal}>Edit Toy</button>
             </article>
+            <ToyReview toyToEdit={toyToEdit} review={review} setReview={setReview}/>
             <ToyMsgs toyToEdit={toyToEdit} msg={msg} setMsg={setMsg} />
             {toyToEdit.msgs ? (
                 <div>
@@ -96,7 +100,7 @@ export function ToyDetails() {
                             <h4> Added by : <span> {msg.by.fullname}</span></h4>
                             <pre>{msg.txt}</pre>
                             {/* <p>Msg user id: {msg.by._id}</p> */}
-                            <button onClick={() => onRemoveMsg(msg.id)}>Delete message</button>
+                            <button className='btn' onClick={() => onRemoveMsg(msg.id)}>Delete message</button>
                         </article>
                     ))}
 

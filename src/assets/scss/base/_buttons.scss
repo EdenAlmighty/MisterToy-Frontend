@@ -1,0 +1,10 @@
+.btn {
+    @include btn;
+
+    &-btn2 {
+        @include btn($type: btn2);
+    }
+    &-btn3 {
+        @include btn($type: light);
+    }
+}

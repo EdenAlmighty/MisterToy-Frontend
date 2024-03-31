@@ -1,0 +1,39 @@
+.app-header {
+    color: var(--clr2txt);
+    background-color: var(--clr1bg);
+    padding-block: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    z-index: 100;
+    position: sticky;
+    background-color: $clr-bg;
+
+    .logo {
+        height: 5rem;
+        margin-right: 2em;
+    }
+
+    .app-nav {
+        display: flex;
+        font-size: em(22px);
+        gap: 1em;
+        align-items: center;
+
+        &.app-nav a.nav {
+            display: inline-block;
+            transition: transform 0.1s ease;
+
+            &:hover {
+                transform: scale(1.1);
+                color: $btn2-hover;
+            }
+
+            &.active {
+                color: $btn2;
+                font-weight: 700;
+            }
+        }
+    }
+}

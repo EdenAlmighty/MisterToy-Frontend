@@ -42,7 +42,6 @@ function logout() {
         })
 }
 
-
 function updateScore(diff) {
     if (getLoggedinUser().score + diff < 0) return Promise.reject('No credit')
     return httpService.put('/user', { diff })

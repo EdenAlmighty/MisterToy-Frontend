@@ -1,0 +1,6 @@
+.toy-list {
+    display: grid;
+    gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(em(250px), 1fr));
+    margin: auto;
+}

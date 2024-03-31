@@ -1,0 +1,26 @@
+.main-layout {
+    margin: 0 auto;
+    padding-left: 4rem;
+    padding-right: 4rem;
+
+    &.container {
+        padding: 1em;
+        margin: auto;
+    }
+    
+    & footer {
+        background-color: $clr-bg-footer;
+        color: $clr2-txt;
+        padding: 1em;
+        text-align: center;
+    }
+    
+    &.toy-details-container {
+        position: relative;
+        margin: auto;
+        overflow: hidden;
+        width: em(520px);
+        height: em(350px);
+    }
+}
+

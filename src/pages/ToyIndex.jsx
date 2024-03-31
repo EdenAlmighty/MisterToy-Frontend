@@ -17,10 +17,10 @@ export function ToyIndex() {
     const [toyToEdit, setToyToEdit] = useState('')
 
     // const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    console.log(toys)
+    // console.log(toys)
 
     useEffect(() => {
-        console.log(toys)
+        // console.log(toys)
 
         loadToys(filterBy, sortBy)
             .catch(err => {
@@ -53,9 +53,6 @@ export function ToyIndex() {
                     icon: "success"
                 })
                 removeToy(toyId)
-                    .then(() => {
-                        showSuccessMsg('Toy removed')
-                    })
                     .catch(err => {
                         showErrorMsg('Cannot remove toy')
                     })
@@ -113,7 +110,7 @@ export function ToyIndex() {
             </section>
 
             <main>
-                <button onClick={() => handleSaveToySwal(toyToEdit)}>{toyToEdit ? 'Edit' : 'Add Toy'} </button>
+                <button className='btn' onClick={() => handleSaveToySwal(toyToEdit)}>{toyToEdit ? 'Edit' : 'Add Toy'} </button>
                 {toys ? (
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onReorderToys={onReorderToys} />
 

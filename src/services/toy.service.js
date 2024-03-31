@@ -17,11 +17,15 @@ export const toyService = {
     getToyLabels,
     saveMsg,
     removeMsg,
-    getEmptyMsg
+    getEmptyMsg,
+    saveReview,
+    removeReview,
+    getEmptyReview
 }
 
-function query(filterBy, sort) {
-    return httpService.get('toy', { params: { filterBy, sort } })
+function query(filterBy, sortBy) {
+    console.log('sortBy', sortBy);
+    return httpService.get('toy', { params: { filterBy, sortBy } })
 }
 
 function getById(toyId) {
@@ -47,22 +51,30 @@ function saveMsg(toyId, msg) {
 function removeMsg(toyId, msgId) {
     return httpService.delete(`toy/${toyId}/msg/${msgId}`)
 }
+function saveReview(toyId, review) {
+    return httpService.post(`toy/${toyId}/review`, review)
+}
+
+function removeReview(toyId, reviewId) {
+    return httpService.delete(`toy/${toyId}/review/${reviewId}`)
+}
 
 function getEmptyToy() {
     return {
         name: '',
         price: '',
         labels: [],
+        reviews: [],
         inStock: 'true'
     }
 }
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: Infinity, inStock: null, labels: [] }
+    return { txt: '', maxPrice: Infinity, inStock: 'all', labels: [] }
 }
 
 function getDefaultSort() {
-    return { name: 'name', asc: 1 }
+    return { by: '', asc: 1 }
 }
 
 function getToyLabels() {
@@ -72,10 +84,11 @@ function getToyLabels() {
 
 function getEmptyMsg() {
     return {
-        msgs: [
-            {
-                txt: ''
-            }
-        ]
+        msgs: [{ txt: '' }]
+    }
+}
+function getEmptyReview() {
+    return {
+        reviews: [{ txt: '', rating: 0 }]
     }
 }

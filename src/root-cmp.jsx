@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import '../src/assets/style/main.css'
+import '../src/assets/scss/main.scss'
 
 import { ToyIndex } from './pages/ToyIndex.jsx'
 import { store } from './store/store'
@@ -11,6 +11,7 @@ import { HomePage } from './pages/HomePage.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { OurStores } from './pages/OurStores.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
+import { AppFooter } from './cmps/AppFooter.jsx'
 
 export function App() {
 
@@ -29,7 +30,7 @@ export function App() {
           {/* <Route element={<UserDetails />} path="/user/:userId" /> */}
         </Routes>
       </main>
-      {/* <AppFooter /> */}
+      <AppFooter />
       <UserMsg />
     </section>
   )
