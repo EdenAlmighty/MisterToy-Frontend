@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { utilService } from "../services/util.service";
-import { DropdownCheckbox } from "./DropdownCheckbox";
-import { useEffectUpdate } from "../customHooks/useEffectUpdate";
-import { toyService } from "../services/toy.service";
+import { useEffect, useRef, useState } from "react"
+import { utilService } from "../services/util.service"
+import { DropdownCheckbox } from "./DropdownCheckbox"
+import { useEffectUpdate } from "../customHooks/useEffectUpdate"
+import { toyService } from "../services/toy.service"
 
 const toyLabels = toyService.getToyLabels()
 
@@ -35,7 +35,10 @@ export function ToyFilter({ onSetFilter, filterBy }) {
 
 
     return (
+        <>
+                            <img src="img/banner.jpg"></img>
         <section className="toy-filter flex justify-center align-center">
+
             <form onSubmit={onSubmit}>
                 <div className="radio-sort flex justify-center align-center">
 
@@ -94,6 +97,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
 
             </form>
         </section>
+        </>
     )
 }
 

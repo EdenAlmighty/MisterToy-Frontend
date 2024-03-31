@@ -1,4 +1,4 @@
-import { GoogleMap } from "../cmps/GoogleMap";
+import { GoogleMap } from "../cmps/GoogleMap"
 
 export function OurStores() {
 

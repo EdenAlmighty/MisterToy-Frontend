@@ -61,3 +61,31 @@ export function LoginForm({ onLogin, isSignup }) {
         </>
     )
 }
+
+
+// import { useState } from "react"
+// import { userService } from "../services/user.service.js"
+// import Swal from 'sweetalert2'
+// import { SwalLogin } from "./SwalLogin.jsx"
+// // import { useSwalEnterKey } from "../customHooks/useSwalEnterKey.jsx"
+
+// export function LoginForm({ onLogin, isSignup }) {
+//     const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
+//     // useSwalEnterKey()
+
+
+
+//     return (
+//         <>
+//             <SwalLogin
+//                 onConfirm={(values) => console.log('Form values:', values)}
+//                 setCredentials ={setCredentials}
+//                 onLogin={onLogin}
+//                 title="Login Form"
+//                 text="Please enter your credentials"
+//                 confirmButtonText="Sign in"
+//                 isSignup={false}
+//             />
+//         </>
+//     )
+// }

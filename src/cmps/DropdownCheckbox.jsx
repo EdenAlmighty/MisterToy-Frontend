@@ -1,17 +1,17 @@
 import { useState } from "react"
 
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import Chip from '@mui/material/Chip'
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
 const MenuProps = {
     PaperProps: {
         style: {
@@ -19,7 +19,7 @@ const MenuProps = {
             width: 250,
         },
     },
-};
+}
 
 const names = [
     "On wheels",
@@ -38,11 +38,11 @@ function getStyles(name, personName, theme) {
             personName.indexOf(name) === -1
                 ? theme.typography.fontWeightRegular
                 : theme.typography.fontWeightMedium,
-    };
+    }
 }
 
 export function DropdownCheckbox({ selectedOptions, handleCheckboxChange, toyLabels }) {
-    const theme = useTheme();
+    const theme = useTheme()
     const [personName, setPersonName] = React.useState(selectedOptions || [])
 
     React.useEffect(() => {

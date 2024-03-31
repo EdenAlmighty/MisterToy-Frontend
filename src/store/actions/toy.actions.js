@@ -2,7 +2,7 @@
 import { toyService } from "../../services/toy.service.js";
 import { store } from "../store.js";
 
-import { ADD_TOY, REMOVE_TOY, SET_FILTER_BY, SET_IS_LOADING, SET_SORT_BY, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
+import { ADD_TOY, REMOVE_TOY, REORDER_TOYS, SET_FILTER_BY, SET_IS_LOADING, SET_SORT_BY, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
 
 
 export function loadToys(filterBy, sort) {
@@ -54,4 +54,11 @@ export function setFilterBy(filterBy) {
 
 export function setSortBy(sortBy) {
     store.dispatch({ type: SET_SORT_BY, sortBy })
+}
+
+export function reorderToysAction(sourceIndex, destinationIndex) {
+    return {
+        type: REORDER_TOYS,
+        payload: { sourceIndex, destinationIndex }
+    };
 }

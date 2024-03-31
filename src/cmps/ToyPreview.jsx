@@ -6,14 +6,16 @@ export function ToyPreview({ toy }) {
 
     return (
         <Link to={`/toy/${toy._id}`}>
-        <article className="toy-card">
-            <img src={`img/${utilService.getRandomIntInclusive(1, 10)}.jpg`} alt="toy-img" />
-            <div className="toy-details pad1">
-                <h4>{toy.name}</h4>
-                <p>Price ${toy.price.toLocaleString()}</p>
-            </div>
+            <article className="toy-card">
+                <img src={`img/${utilService.getRandomIntInclusive(1, 10)}.jpg`} alt="toy-img" />
+                <div className="toy-details pad1">
+                    <h4>{toy.name}</h4>
+                    <p style={{ color: toy.inStock ? 'black' : 'red' }}>
+                        {toy.inStock ? `Price: $${toy.price.toLocaleString()}` : 'Currently unavailable'}
+                    </p>
+                </div>
 
-        </article>
+            </article>
         </Link>
     )
 }

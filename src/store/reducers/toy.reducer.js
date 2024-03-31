@@ -7,6 +7,7 @@ export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const SET_SORT_BY = 'SET_SORT_BY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
+export const REORDER_TOYS = 'REORDER_TOYS';
 
 const initialState = {
     toys: null,
@@ -57,6 +58,16 @@ export function toyReducer(state = initialState, action) {
                 isLoading: action.isLoading
             }
 
+        case REORDER_TOYS: {
+            const { sourceIndex, destinationIndex } = action.payload;
+            const newToys = Array.from(state.toys);
+            const [removed] = newToys.splice(sourceIndex, 1);
+            newToys.splice(destinationIndex, 0, removed);
+            return {
+                ...state,
+                toys: newToys,
+            };
+        }
         default:
             return state
     }

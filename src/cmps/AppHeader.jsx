@@ -1,16 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import { NavLink } from "react-router-dom"
 
-import { UserMsg } from "./UserMsg";
-import { LoginSignup } from "./LoginSignup";
-import { logout } from "../store/actions/user.actions";
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
+import { UserMsg } from "./UserMsg"
+import { LoginSignup } from "./LoginSignup"
+import { logout } from "../store/actions/user.actions"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
 
 export function AppHeader() {
     const dispatch = useDispatch()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
-    console.log(user);
+    console.log(user)
     function onLogout() {
         logout()
             .then(() => {
@@ -28,6 +28,8 @@ export function AppHeader() {
 
                     <NavLink className="nav" to="/toy">Toys</NavLink>
                     <NavLink className="nav" to="/stores">Our Stores</NavLink>
+                    {user && <NavLink className="nav" to="/dash">Dashboard</NavLink>}
+                    
                 </nav>
             </section>
 

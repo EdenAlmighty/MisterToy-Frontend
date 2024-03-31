@@ -14,10 +14,11 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getDefaultSort,
-    getToyLabels
+    getToyLabels,
+    saveMsg,
+    removeMsg,
+    getEmptyMsg
 }
-
-// _createToys()
 
 function query(filterBy, sort) {
     return httpService.get('toy', { params: { filterBy, sort } })
@@ -39,6 +40,14 @@ function save(toy) {
     }
 }
 
+function saveMsg(toyId, msg) {
+    return httpService.post(`toy/${toyId}/msg`, msg)
+}
+
+function removeMsg(toyId, msgId) {
+    return httpService.delete(`toy/${toyId}/msg/${msgId}`)
+}
+
 function getEmptyToy() {
     return {
         name: '',
@@ -53,37 +62,20 @@ function getDefaultFilter() {
 }
 
 function getDefaultSort() {
-    return { name: 'name', asc: true }
+    return { name: 'name', asc: 1 }
 }
 
 function getToyLabels() {
     return ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle', 'Outdoor', 'Battery Powered']
 }
 
-// function _createToys() {
-//     gToys = [
-//         _createToy(),
-//         _createToy(),
-//         _createToy(),
-//         _createToy(),
-//         _createToy(),
-//         _createToy(),
-//         _createToy()
-//     ]
-//     utilService.saveToStorage(STORAGE_KEY, gToys)
-//     console.log(gToys);
-//     return gToys
-// }
 
-// function _createToy() {
-//     return {
-//         _id: utilService.makeId(),
-//         name: utilService.makeLorem(1),
-//         price: utilService.getRandomIntInclusive(50, 300),
-//         labels: utilService.getRandomLabels(),
-//         createdAt: (Date.now() % 1000),
-//         // img: `img/6.jpg`,
-//         img: `img/${utilService.getRandomIntInclusive(1, 10)}.jpg`,
-//         inStock: true,
-//     }
-// }
+function getEmptyMsg() {
+    return {
+        msgs: [
+            {
+                txt: ''
+            }
+        ]
+    }
+}

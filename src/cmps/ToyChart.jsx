@@ -1,8 +1,8 @@
-import React from 'react';
-import { RadialLinearScale, Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie, PolarArea } from 'react-chartjs-2';
+import React from 'react'
+import { RadialLinearScale, Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie, PolarArea } from 'react-chartjs-2'
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend)
 
 export function ToyChart() {
     const data = {
@@ -30,11 +30,11 @@ export function ToyChart() {
                 borderWidth: 1,
             },
         ],
-    };
+    }
     return (
         <>
+        <div style={{ width: '400px', height: '400px' }}> {/* Adjust width and height as needed */}
             <Pie data={data} />
-            {/* <PolarArea data={data} /> */}
-        </>
+        </div>        </>
     )
 }

@@ -2,6 +2,12 @@ import { useEffect } from 'react'
 import Swal from 'sweetalert2'
 
 export function useSwalEnterKey() {
+    const [state, setState] = useState()
+
+    // keep state of something
+
+    // handle changes
+
     useEffect(() => {
 
         const timerId = setTimeout(() => {
@@ -26,5 +32,9 @@ export function useSwalEnterKey() {
             })
         }
     }, [])
+
+    // return [state, handleChange, isLoading, isError]
+
+    
 }
 

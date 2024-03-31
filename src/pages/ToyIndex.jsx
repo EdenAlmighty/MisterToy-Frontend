@@ -1,4 +1,4 @@
-import { loadToys, removeToy, saveToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
+import { loadToys, removeToy, reorderToysAction, saveToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
 
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { useEffect, useState } from "react"
@@ -8,17 +8,19 @@ import { NavLink } from 'react-router-dom'
 import { ToyFilter } from "../cmps/ToyFilter"
 import { ToySort } from "../cmps/ToySort"
 import Swal from "sweetalert2"
+import { ToyEdit } from "./ToyEdit"
 
 export function ToyIndex() {
     const toys = useSelector((state) => state.toyModule.toys)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     const sortBy = useSelector(state => state.toyModule.sortBy)
+    const [toyToEdit, setToyToEdit] = useState('')
 
-    const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    console.log(toys);
+    // const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+    console.log(toys)
 
     useEffect(() => {
-        console.log(toys);
+        console.log(toys)
 
         loadToys(filterBy, sortBy)
             .catch(err => {
@@ -62,16 +64,45 @@ export function ToyIndex() {
 
     }
 
-    function onEditToy(toy) {
+    const labels = ["On wheels", "Box game", "Art", "Baby", "Doll", "Puzzle", "Outdoor", "Battery Powered"]
 
-        saveToy(toyToSave)
-            .then((savedToy) => {
-                showSuccessMsg(`Toy updated price $${savedToy.price}`)
-            })
-            .catch(err => {
-                showErrorMsg('Cannot update car')
-            })
+
+    const handleSaveToySwal = (toy) => {
+        const checkboxesHtml = labels.map(label => 
+            `<label><input type="checkbox" class="swal2-checkbox" name="${label}" value="${label}"/>${label}</label><br>`
+        ).join('')
+        
+
+        Swal.fire({
+            title: toy ? 'Edit Toy' : 'Add New Toy',
+            html: `<input id="swal-name" class="swal2-input" placeholder="Name" value="${toy ? toy.name : ''}">
+                   <input id="swal-price" type="number" class="swal2-input" placeholder="Price" value="${toy ? toy.price : ''}">
+                   ${checkboxesHtml}
+                   `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const name = document.getElementById('swal-name').value
+                const price = document.getElementById('swal-price').value
+                const selectedLabels = labels.filter(label => document.querySelector(`input[value="${label}"]`).checked)
+                if (!name || !price) {
+                    Swal.showValidationMessage(`Please enter name and price`)
+                    return false
+                }
+                return { name, price, labels: selectedLabels }
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const savedToy = { ...toy, ...result.value }
+                saveToy(savedToy)
+                Swal.fire('Saved!', '', 'success').then(() => navigate('/toy'))
+            }
+        })
     }
+
+    const onReorderToys = (sourceIndex, destinationIndex) => {
+        reorderToysAction(sourceIndex, destinationIndex)
+    }
+    
 
     return (
         <div>
@@ -82,13 +113,9 @@ export function ToyIndex() {
             </section>
 
             <main>
-                <NavLink to='/toy/edit' ><button className="add-btn">Add Toy</button></NavLink>
+                <button onClick={() => handleSaveToySwal(toyToEdit)}>{toyToEdit ? 'Edit' : 'Add Toy'} </button>
                 {toys ? (
-                    <ToyList
-                        toys={toys}
-                        onRemoveToy={onRemoveToy}
-                        onEditToy={onEditToy}
-                    />
+                    <ToyList toys={toys} onRemoveToy={onRemoveToy} onReorderToys={onReorderToys} />
 
                 ) : <h1>Loading...</h1>}
                 <hr />

@@ -5,7 +5,7 @@ button {
     margin: 0.5em;
     border: 0;
     padding: 0.5em 0.8em;
-    border-radius: 4px;   
+    border-radius: 4px;
     font-family: 'poppins';
 }
 
@@ -14,7 +14,32 @@ button:hover {
     color: var(--clr1bg);
     transition: .3s;
 }
+
 input:focus {
     background-color: var(--clr1bg);
     transition: background-color 1s;
+}
+
+.text-area {
+    width: 320px;
+    font-family: 'poppins';
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #DAE2ED;
+    color: #1C2025;
+    box-shadow: 0px 2px 2px  #F3F6F9;
+}
+
+.text-area:hover {
+    border-color: #3399FF;
+}
+
+.text-area:focus,
+.text-area:focus-visible {
+    outline: #3399FF;
+    border-color: #3399FF;
+    box-shadow: 0 0 0 3px #b6daff;
 }

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import GoogleMapReact from 'google-map-react';
-import { Marker } from "./Marker";
-// const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-// console.log(googleMapsApiKey);
+import React, { useState } from "react"
+import GoogleMapReact from 'google-map-react'
+import { Marker } from "./Marker"
+// const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+// console.log(googleMapsApiKey)
 export function GoogleMap() {
     const [coords, setCoords] = useState({ lat: 32.0853, lng: 34.7818 })
     const zoom = 11
@@ -40,5 +40,5 @@ export function GoogleMap() {
 
             </GoogleMapReact>
         </div>
-    );
+    )
 }
