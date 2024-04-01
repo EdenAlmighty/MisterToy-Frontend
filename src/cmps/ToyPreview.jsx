@@ -7,7 +7,7 @@ export function ToyPreview({ toy }) {
     return (
         <Link to={`/toy/${toy._id}`}>
             <article className="toy-card">
-                <img src={`img/${utilService.getRandomIntInclusive(1, 10)}.jpg`} alt="toy-img" />
+                <img src={toy.imgUrl} alt="toy-img" />
                 <div className="toy-details">
                     <h4>{toy.name}</h4>
                     <p style={{ color: toy.inStock ? 'black' : 'red' }}>

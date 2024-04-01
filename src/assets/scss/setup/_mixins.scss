@@ -96,7 +96,7 @@
 
     @else if $type ==btn2 {
         background-color: $btn2;
-        color: $clr2-txt;
+        // color: $clr2-txt;
 
         &:hover {
             background-color: $btn2-hover;

@@ -1,51 +1,71 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { NavLink, useNavigate, useParams } from "react-router-dom"
 import { toyService } from "../services/toy.service"
-import { utilService } from "../services/util.service"
 import { loadToys, saveToy } from "../store/actions/toy.actions"
-import { useDispatch } from "react-redux"
 import Swal from "sweetalert2"
 import { ToyMsgs } from "../cmps/ToyMsg"
-import { ToyReview } from "../cmps/ToyReview"
+import { useSelector } from "react-redux"
+import { ReviewIndex } from "./ReviewIndex"
+import { uploadService } from "../services/upload.service"
 
 export function ToyDetails() {
     const { toyId } = useParams()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const [toyToEdit, setToyToEdit] = useState(null)
-    const [msg, setMsg] = useState(toyService.getEmptyMsg().msgs[0].txt)
+    const loggedInUser = useSelector(state => state.userModule.loggedInUser)
+    const reviews = useSelector(storeState => storeState.reviewModule.reviews)
     // const [review, setReview] = useState(toyService.getEmptyReview().reviews[0].rating)
-    const [review, setReview] = useState(toyService.getEmptyReview().reviews[0].rating)
 
+    const [msg, setMsg] = useState(toyService.getEmptyMsg().msgs[0].txt)
+    const [imgData, setImgData] = useState({
+        imgUrl: null,
+        height: 500,
+        width: 500,
+    })
+    const [isUploading, setIsUploading] = useState(false)
 
     useEffect(() => {
         if (toyId) {
-            console.log(toyToEdit);
             toyService.getById(toyId)
-                .then(toyToEdit => setToyToEdit(toyToEdit))
+                .then(toyToEdit => {
+                    console.log(toyToEdit);
+                    setToyToEdit(toyToEdit)
+                })
                 // .then(loadToys())
                 .catch(err => {
                     console.log('Had issues in toy details', err)
-                    navigate('/toy')
+                    // navigate('/toy')
                 })
         }
-    }, [setToyToEdit, ])
-
+    }, [])
     const labels = ["On wheels", "Box game", "Art", "Baby", "Doll", "Puzzle", "Outdoor", "Battery Powered"];
+
+    function onUploaded(imgUrl) {
+        setToyToEdit({ ...toyToEdit, imgUrl })
+    }
+
 
 
     const handleSaveToySwal = () => {
-        const checkboxesHtml = labels.map(label => 
-            `<label><input type="checkbox" class="swal2-checkbox" name="labels" value="${label}" ${
-                toyToEdit && toyToEdit.labels && toyToEdit.labels.includes(label) ? 'checked' : ''
+
+        const checkboxesHtml = labels.map(label =>
+            `<label><input type="checkbox" class="swal2-checkbox" name="labels" value="${label}" ${toyToEdit && toyToEdit.labels && toyToEdit.labels.includes(label) ? 'checked' : ''
             }/>${label}</label><br>`
         ).join('')
+
+        const imgInputHtml =
+            `<div>
+            <img id="swal-img-preview" src="${imgData.imgUrl}" style="max-width: 150px; display: ${imgData.imgUrl ? 'block' : 'none'}; margin: 10px 0;" />
+            <input type="file" accept="image/*" id="swal-image-upload" class="swal2-input" />
+        </div>`
+
 
         Swal.fire({
             title: toyToEdit ? 'Edit Toy' : 'Add New Toy',
             html: `<input id="swal-name" class="swal2-input" placeholder="Name" value="${toyToEdit ? toyToEdit.name : ''}">
-                   <input id="swal-price" type="number" class="swal2-input" placeholder="Price" value="${toyToEdit ? toyToEdit.price : ''}">
+                   <input id="swal-price" type="number" class="swal2-input" placeholder="Price" value="${toyToEdit.price}">
                    ${checkboxesHtml}
+                   ${imgInputHtml}
                    `,
             focusConfirm: false,
             preConfirm: () => {
@@ -58,14 +78,30 @@ export function ToyDetails() {
                 }
                 return { name, price, labels: selectedLabels };
             },
-        }).then((result) => {
-            if (result.isConfirmed && result.value) {
-                const savedToy = { ...toyToEdit, ...result.value }
-                saveToy(savedToy)
-                Swal.fire('Saved!', '', 'success').then(() => navigate('/toy'))
-            }
+            didOpen: () => {
+                document.getElementById('swal-image-upload').onchange = async (ev) => {
+                    setIsUploading(true);
+                    const file = ev.target.files[0];
+                    if (file) {
+                        const { secure_url } = await uploadService.uploadImg(file);
+                        setImgData({ imgUrl: secure_url, width: 500, height: 500 }); 
+                        document.getElementById('swal-img-preview').src = secure_url;
+                        document.getElementById('swal-img-preview').style.display = 'block';
+                        setIsUploading(false);
+                        onUploaded(secure_url); 
+                    }
+                };
+            },
         })
+            .then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const savedToy = { ...toyToEdit, ...result.value, }
+                    saveToy(savedToy)
+                    Swal.fire('Saved!', '', 'success')
+                }
+            })
     }
+
     async function onRemoveMsg(msgId) {
         try {
             console.log(msgId);
@@ -82,16 +118,17 @@ export function ToyDetails() {
 
     return toyToEdit ? (
         <section className="toy-details">
-            <Link to="/toy"><button className='btn'>Back</button></Link>
+            <NavLink to="/toy"><button className='btn'>Back</button></NavLink>
             <article className="toy-details">
-                <img src={`/img/${utilService.getRandomIntInclusive(1, 10)}.jpg`} alt="toy-img" />
+                <img src={toyToEdit.imgUrl} alt="toy-img" />
                 <div className="toy-details-info  ">
-                    <h1>Toy Name: {toyToEdit.name}</h1>
-                    <h5>Toy Price: ${toyToEdit.price}</h5>
+                    <h1>{toyToEdit.name}</h1>
+                    <h5>${toyToEdit.price}</h5>
                 </div>
                 <button className='btn' onClick={handleSaveToySwal}>Edit Toy</button>
             </article>
-            <ToyReview toyToEdit={toyToEdit} review={review} setReview={setReview}/>
+            <ReviewIndex reviews={reviews} loggedInUser={loggedInUser} toyToEdit={toyToEdit} />
+
             <ToyMsgs toyToEdit={toyToEdit} msg={msg} setMsg={setMsg} />
             {toyToEdit.msgs ? (
                 <div>
@@ -107,7 +144,7 @@ export function ToyDetails() {
                 </div>
             ) : (
                 <h2>Write a message.</h2>
-            ) }
+            )}
         </section>
     ) : (
         <div>Loading...</div>

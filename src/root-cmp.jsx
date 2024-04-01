@@ -12,6 +12,8 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { OurStores } from './pages/OurStores.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
+import { UserProfile } from './pages/UserProfile.jsx'
+import { ReviewIndex } from './pages/ReviewIndex.jsx'
 
 export function App() {
 
@@ -23,10 +25,12 @@ export function App() {
           <Route element={<HomePage />} path="/" />
           <Route element={<OurStores />} path="/stores" />
           <Route element={<ToyIndex />} path="/toy" />
+          <Route element={<UserProfile />} path="/user/:userId" />
           <Route element={<ToyEdit />} path="/toy/edit/" />
           <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
           <Route element={<ToyDetails />} path="/toy/:toyId" />
           <Route element={<Dashboard />} path="/dash" />
+          <Route element={<ReviewIndex />} path="/reviews" />
           {/* <Route element={<UserDetails />} path="/user/:userId" /> */}
         </Routes>
       </main>

@@ -28,8 +28,8 @@ function query(filterBy, sortBy) {
     return httpService.get('toy', { params: { filterBy, sortBy } })
 }
 
-function getById(toyId) {
-    return httpService.get(`toy/${toyId}`)
+async function getById(toyId) {
+    return await httpService.get(`toy/${toyId}`)
 }
 
 function remove(toyId) {
@@ -62,7 +62,7 @@ function removeReview(toyId, reviewId) {
 function getEmptyToy() {
     return {
         name: '',
-        price: '',
+        price: 0,
         labels: [],
         reviews: [],
         inStock: 'true'
@@ -70,7 +70,7 @@ function getEmptyToy() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: Infinity, inStock: 'all', labels: [] }
+    return { txt: '', price: Infinity, inStock: 'all', labels: [] }
 }
 
 function getDefaultSort() {

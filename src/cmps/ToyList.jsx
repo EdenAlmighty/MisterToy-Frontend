@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { ToyPreview } from "./ToyPreview"
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
@@ -33,7 +33,7 @@ export function ToyList({ toys, onRemoveToy, onEditToy, onReorderToys }) {
                                         <ToyPreview toy={toy} />
                                         <div className="actions-btns">
                                             <button className="btn" onClick={() => onRemoveToy(toy._id)}>x</button>
-                                            <Link to={`/toy/${toy._id}`}><button className="btn ">Details</button></Link>
+                                            <NavLink to={`/toy/${toy._id}`}><button className="btn ">Details</button></NavLink>
                                         </div>
                                     </div>
                                 )}

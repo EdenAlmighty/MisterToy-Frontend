@@ -6,6 +6,7 @@ import { LoginSignup } from "./LoginSignup"
 import { logout } from "../store/actions/user.actions"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { useEffect } from "react"
+import { ImgUploader } from "./ImgUploader"
 
 
 export function AppHeader() {
@@ -28,11 +29,11 @@ export function AppHeader() {
             <section className="header-container">
                 <nav className="app-nav">
                     <NavLink to="/"><img className="logo" src="/logo/MisterToys-logo.png" alt="" /></NavLink>
-
                     <NavLink className="nav" to="/toy">Toys</NavLink>
                     <NavLink className="nav" to="/stores">Our Stores</NavLink>
                     {user && <NavLink className="nav" to="/dash">Dashboard</NavLink>}
-
+                    {user && <NavLink className="nav" to={`/user/${user._id}`}>Profile</NavLink>}
+                    {user && <NavLink className="nav" to={`/reviews`}>Reviews</NavLink>}
                 </nav>
             </section>
 

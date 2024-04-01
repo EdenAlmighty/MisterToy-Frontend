@@ -2,57 +2,73 @@ import axios from 'axios'
 import { storageService } from './async-storage.service.js'
 import { httpService } from './http.service.js'
 
-const BASE_URL = 'auth/'
+const USER_BASE_URL = 'user/'
+const AUTH_BASE_URL = 'auth/'
 const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
 
 export const userService = {
     login,
     logout,
     signup,
+    getUsers,
+    remove,
     getById,
     getLoggedinUser,
-    updateScore,
-    getEmptyCredentials
+    saveLocalUser,
+    getEmptyCredentials,
+    changeScore
 }
 
-
-function login({ username, password }) {
-
-    return httpService.post(BASE_URL + 'login', { username, password })
-        .then(user => {
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid login')
-        })
+async function getUsers() {
+    try {
+        return await httpService.get(USER_BASE_URL)
+        // console.log(users);
+    } catch (err) {
+        throw new Error(err.message || 'An err occurred during getting users')
+    }
 }
 
-function signup({ username, password, fullname }) {
-    const user = { username, password, fullname }
-    return httpService.post(BASE_URL + 'signup', user)
-        .then(user => {
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid signup')
-        })
+async function remove(userId) {
+    try {
+        return await httpService.delete(AUTH_BASE_URL + userId)
+    } catch (err) {
+        throw new Error(err.message || 'An err occurred during removing user')
+    }
 }
+
+async function getById(userId) {
+    try {
+        const user = await httpService.get(USER_BASE_URL + userId)
+        return user
+    } catch (err) {
+        throw new Error(err.message || 'An err occurred during getting user')
+    }
+}
+
+async function login({ username, password }) {
+    try {
+        const user = await httpService.post(AUTH_BASE_URL + 'login', { username, password })
+        if (user) return _setLoggedinUser(user)
+    } catch (err) {
+        throw new Error(err.message || 'An err occurred during login')
+    }
+}
+
+async function signup({ username, password, fullname }) {
+    const userCreds = { username, password, fullname }
+
+    const user = await httpService.post(AUTH_BASE_URL + 'signup', userCreds)
+    if (user) return _setLoggedinUser(user)
+    else return Promise.reject('Invalid signup')
+}
+
 
 
 function logout() {
-    return httpService.post(BASE_URL + 'logout')
+    return httpService.post(AUTH_BASE_URL + 'logout')
         .then(() => {
             sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
         })
-}
-
-function updateScore(diff) {
-    if (getLoggedinUser().score + diff < 0) return Promise.reject('No credit')
-    return httpService.put('/user', { diff })
-        .then(user => {
-            _setLoggedinUser(user)
-            return user.score
-        })
-}
-
-function getById(userId) {
-    return httpService.get('user/' + userId)
 }
 
 
@@ -74,6 +90,21 @@ function getEmptyCredentials() {
         fullname: ''
     }
 }
+
+async function changeScore(by) {
+    const user = getLoggedinUser()
+    if (!user) throw new Error('Not loggedin')
+    user.score = user.score + by || by
+    await update(user)
+    return user.score
+}
+
+function saveLocalUser(user) {
+    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin: user.isAdmin }
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    return user
+}
+
 
 // Test Data
 // userService.signup({username: 'bobo', password: 'bobo', fullname: 'Bobo McPopo'})

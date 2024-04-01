@@ -1,27 +1,29 @@
-import { loadToys, removeToy, reorderToysAction, saveToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
-
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { useEffect, useState } from "react"
+import { NavLink, useNavigate, useParams } from "react-router-dom"
+import { loadToys, removeToy, reorderToysAction, saveToy, setFilterBy, setSortBy } from "../store/actions/toy.actions"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { useDispatch, useSelector } from "react-redux"
+import { uploadService } from "../services/upload.service"
 import { ToyList } from "../cmps/ToyList"
-import { NavLink } from 'react-router-dom'
 import { ToyFilter } from "../cmps/ToyFilter"
 import { ToySort } from "../cmps/ToySort"
 import Swal from "sweetalert2"
-import { ToyEdit } from "./ToyEdit"
+
 
 export function ToyIndex() {
     const toys = useSelector((state) => state.toyModule.toys)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     const sortBy = useSelector(state => state.toyModule.sortBy)
-    const [toyToEdit, setToyToEdit] = useState('')
+    const [toyToEdit, setToyToEdit] = useState(null)
+    const [imgData, setImgData] = useState({
+        imgUrl: null,
+        height: 500,
+        width: 500,
+    })
+    const [isUploading, setIsUploading] = useState(false)
 
-    // const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    // console.log(toys)
 
     useEffect(() => {
-        // console.log(toys)
-
         loadToys(filterBy, sortBy)
             .catch(err => {
                 showErrorMsg('Cannot load toys')
@@ -63,35 +65,70 @@ export function ToyIndex() {
 
     const labels = ["On wheels", "Box game", "Art", "Baby", "Doll", "Puzzle", "Outdoor", "Battery Powered"]
 
+    function onUploaded(imgUrl) {
+        setToyToEdit({ ...toyToEdit, imgUrl })
+    }
 
-    const handleSaveToySwal = (toy) => {
-        const checkboxesHtml = labels.map(label => 
+    const handleSaveToySwal = () => {
+        const checkboxesHtml = labels.map(label =>
             `<label><input type="checkbox" class="swal2-checkbox" name="${label}" value="${label}"/>${label}</label><br>`
         ).join('')
-        
+
+        const imgInputHtml =
+            `<div>
+            <img id="swal-img-preview" src="${imgData.imgUrl}" style="max-width: 150px; display: ${imgData.imgUrl ? 'block' : 'none'}; margin: 10px 0;" />
+            <input type="file" accept="image/*" id="swal-image-upload" class="swal2-input" />
+        </div>`
 
         Swal.fire({
-            title: toy ? 'Edit Toy' : 'Add New Toy',
-            html: `<input id="swal-name" class="swal2-input" placeholder="Name" value="${toy ? toy.name : ''}">
-                   <input id="swal-price" type="number" class="swal2-input" placeholder="Price" value="${toy ? toy.price : ''}">
+            title: toyToEdit ? 'Edit Toy' : 'Add New Toy',
+            html: `<input id="swal-name" class="swal2-input" placeholder="Name" value="${toyToEdit ? toyToEdit.name : ''}">
+                   <input id="swal-price" type="number" class="swal2-input" placeholder="Price" value="${toyToEdit ? toyToEdit.price : ''}">
                    ${checkboxesHtml}
+                   ${imgInputHtml}
+
                    `,
             focusConfirm: false,
             preConfirm: () => {
                 const name = document.getElementById('swal-name').value
                 const price = document.getElementById('swal-price').value
                 const selectedLabels = labels.filter(label => document.querySelector(`input[value="${label}"]`).checked)
+
                 if (!name || !price) {
                     Swal.showValidationMessage(`Please enter name and price`)
                     return false
                 }
-                return { name, price, labels: selectedLabels }
+                return { name, price, labels: selectedLabels, imgUrl: imgData.imgUrl}
             },
-        }).then((result) => {
+            didOpen: () => {
+                document.getElementById('swal-image-upload').onchange = async (ev) => {
+                    setIsUploading(true);
+                    const file = ev.target.files ? ev.target.files[0] : null;
+                    if (!file) {
+                        console.error('No file selected');
+                        setIsUploading(false);
+                        return;
+                    }
+            
+                    try {
+                        const { secure_url } = await uploadService.uploadImg(file); // Pass the file directly here
+                        setImgData({ imgUrl: secure_url, width: 500, height: 500 });
+                        document.getElementById('swal-img-preview').src = secure_url;
+                        document.getElementById('swal-img-preview').style.display = 'block';
+                        setIsUploading(false);
+                        onUploaded && onUploaded(secure_url); // Call the onUploaded callback if defined
+                    } catch (error) {
+                        console.error('Failed to upload', error);
+                        setIsUploading(false);
+                    }
+                };
+            },
+        })
+        .then((result) => {
             if (result.isConfirmed && result.value) {
-                const savedToy = { ...toy, ...result.value }
+                const savedToy = { ...toyToEdit, ...result.value, }
                 saveToy(savedToy)
-                Swal.fire('Saved!', '', 'success').then(() => navigate('/toy'))
+                Swal.fire('Saved!', '', 'success')
             }
         })
     }
@@ -99,7 +136,7 @@ export function ToyIndex() {
     const onReorderToys = (sourceIndex, destinationIndex) => {
         reorderToysAction(sourceIndex, destinationIndex)
     }
-    
+
 
     return (
         <div>

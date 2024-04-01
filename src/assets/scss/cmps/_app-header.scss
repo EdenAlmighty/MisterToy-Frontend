@@ -35,5 +35,15 @@
                 font-weight: 700;
             }
         }
+        @media (max-width: 1200px) {
+            font-size: em(18px);
+
+            .logo {
+                // height: 5rem;
+                margin-right: 1em;
+            }
+        }
+
     }
+   
 }

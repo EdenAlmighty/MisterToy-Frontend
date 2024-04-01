@@ -18,8 +18,6 @@ export function ToyMsgs({ toyToEdit, msg, setMsg }) {
         try {
             await toyService.saveMsg(toyToEdit._id, { txt: msg })
             setMsg('')
-            // setToyToEdit(toyToEdit)
-            // onMessageSaved()
         } catch (err) {
             console.error('Failed to save message', err)
         }
@@ -37,6 +35,5 @@ export function ToyMsgs({ toyToEdit, msg, setMsg }) {
         />
 
         <button className="btn" onClick={onSaveMsg}>Save message</button>
-        {/* <input type="text" placeholder="Type your message here..." value={msg} onChange={handleChange} /> */}
     </div>
 }   
