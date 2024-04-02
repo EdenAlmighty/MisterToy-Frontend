@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
-export function InStockInput({ handleChange }) {
+export function InStockInput({ handleChange, value }) {
 
     return (
         <Box sx={{ minWidth: 120 }}>
@@ -15,6 +15,7 @@ export function InStockInput({ handleChange }) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
+                    value={value}
                     aria-label="inStock"
                     name="inStock"
                     label="inStock"

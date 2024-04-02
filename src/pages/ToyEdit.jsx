@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 import { useDispatch } from 'react-redux'
-import { saveToy } from '../store/actions/toy.actions'
+import { loadToys, saveToy } from '../store/actions/toy.actions'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toyService } from '../services/toy.service'
@@ -17,7 +17,8 @@ export function ToyEdit() {
         if (toyId) {
             toyService.getById(toyId).then(toy => setToyToEdit(toy))
         }
-    }, [toyId])
+        loadToys()
+    }, [toyToEdit])
 
     const handleSaveToySwal = () => {
         const checkboxesHtml = labels.map(label => 

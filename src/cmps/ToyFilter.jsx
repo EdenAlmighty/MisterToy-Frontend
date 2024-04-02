@@ -46,7 +46,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                     <div className="radio-sort flex justify-center align-center">
                         <TextInput handleChange={handleChange} filterByToEdit={filterByToEdit} />
 
-                        <InStockInput handleChange={handleChange} />
+                        <InStockInput value={filterBy.inStock} handleChange={handleChange} />
 
                         <DropdownCheckbox
                             selectedOptions={filterByToEdit.labels}

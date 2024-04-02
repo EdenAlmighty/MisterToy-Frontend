@@ -23,7 +23,7 @@ export function ReviewIndex({loggedInUser,reviews ,toyToEdit}) {
     useEffect(() => {
         loadReviews()
         // loadToys()
-
+        //TODO: ADD FILTERBY byUserId
 
         socketService.on(SOCKET_EVENT_REVIEW_ADDED, (review) => {
             console.log('GOT from socket', review)
@@ -80,23 +80,18 @@ export function ReviewIndex({loggedInUser,reviews ,toyToEdit}) {
                             <button onClick={() => onRemove(review._id)}>X</button>}
                         <p>
                             About:
-                            {/* <Link to={`/toy/${review.aboutToyId}`}> */}
+                            <Link to={`/toy/${toyToEdit.aboutToyId}`}>
                                 {toyToEdit.name}
-                            {/* </Link> */}
+                            </Link>
                         </p>
                         <h3><pre>{review.txt}</pre></h3>
-                        <p>
-                            {/* By:
-                            <Link to={`/user/${review.byUser._id}`}>
-                                {review.byUser.fullname}
-                            </Link> */}
-                        </p>
+
                     </li>
                 ))}
             </ul>) : ( <div>hi</div> )
             }
-            {/* {
-            users && loggedInUser && */}
+            {
+            loggedInUser &&
                 <form onSubmit={onAddReview}>
                     <select
                         onChange={handleChange}
@@ -117,7 +112,7 @@ export function ReviewIndex({loggedInUser,reviews ,toyToEdit}) {
                     ></textarea>
                     <button>Add</button>
                 </form>
-                {/* } */}
+                } 
             <hr />
         </div>
     )
